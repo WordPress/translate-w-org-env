@@ -1,0 +1,8 @@
+.idea/*
+node_modules
+wp-content/languages/*
+wp-content/plugins/*
+wp-content/themes/*
+wp-content/uploads/*
+glotpress.git
+meta.git

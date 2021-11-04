@@ -1,0 +1,25 @@
+{
+  "name": "translate-w-org-env",
+  "version": "0.1.0",
+  "description": "Local development environment for translate.wordpress.org",
+  "author": "Jesús Amieiro",
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@wordpress/env": "^4.0.0"
+  },
+  "scripts": {
+    "provision": "./provision.sh",
+    "start": "npm run wp-env start && npm run provision",
+    "wp-env": "wp-env"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amieiro/translate-w-org-env"
+  },
+  "bugs": {
+    "url": "https://github.com/amieiro/translate-w-org-env"
+  },
+  "homepage": "https://github.com/amieiro/translate-w-org-env#readme"
+}
