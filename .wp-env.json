@@ -1,8 +1,8 @@
 {
 	"core": "WordPress/WordPress#master",
+	"plugins": [  ],
 	"mappings": {
-		".htaccess": "./.wp-env/.htaccess",
-		"wp-content": "./wp-content",
+		"wp-content": "./meta.git/wordpress.org/public_html/wp-content",
 		"wp-content/plugins/glotpress": "./glotpress.git"
 	},
 	"config": {

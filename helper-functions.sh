@@ -168,7 +168,7 @@ function wme_download_pomo {
 	local GPLOCALE=$1
 	local GPPROJECT=$2
 	local OUTPUT=$3
-
-	curl -sfg -o $OUTPUT.po https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=po || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.po"
-	curl -sfg -o $OUTPUT.mo "https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=mo" || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.mo"
+  local CURLOPTIONS="--globoff --silent --location --output"
+	curl $CURLOPTIONS $OUTPUT.po https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=po || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.po"
+	curl $CURLOPTIONS $OUTPUT.mo "https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=mo" || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.mo"
 }
