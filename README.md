@@ -12,7 +12,7 @@ This repo is a WIP, so don't use it to develop.
 2. `cd translate-w-org-env.git`
 3. `npm install`
 4. `npm run start` (This will provision some items).
-5. Visit site at <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>.
+5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
 
 
 ## Stopping Environment
@@ -23,7 +23,7 @@ This repo is a WIP, so don't use it to develop.
 
 ## Dashboard access
 To access to the WordPress dashboard, you need to use:
-- URL: <a href="http://localhost:8888/wp-login.php" target="_blank">http://localhost:8888/wp-login.php</a>
+- URL: <a href="http://localhost:8888/wp-login.php" target="_blank"> http://localhost:8888/wp-login.php </a>
 - Username: admin
 - Password: password
 

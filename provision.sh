@@ -9,14 +9,23 @@ source ./helper-functions.sh
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+print_header "Clone and/or pull GlotPress and WordPress.org"
 # Get a copy from GlotPress and Meta only if the folder doesn't exist
 # Pull the repo looking for updates
 [[ -d glotpress.git ]] || git clone https://github.com/GlotPress/GlotPress-WP.git glotpress.git
 cd glotpress.git
+git config --local pull.ff only
 git pull
 cd -
 [[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
 cd meta.git
+git config --local pull.ff only
+git pull
+cd -
+# todo: remove the meta-environment-vvv.git clone and the other commands when we have the first beta version
+[[ -d meta-environment-vvv.git ]] || git clone https://github.com/WordPress/meta-environment meta-environment-vvv.git
+cd meta-environment-vvv.git
+git config --local pull.ff only
 git pull
 cd -
 
@@ -27,13 +36,31 @@ npm run wp-env run cli wp option update permalink_structure '/%postname%'
 # See https://github.com/WordPress/meta-environment/blob/05296fa7c388bc2a4b25f9e0d58fb20e232b9b4c/wordpressorg.test/provision/wp-config.php#L97-L101
 
 npm run wp-env run cli wp config set DB_CHARSET latin1
-npm run wp-env run cli wp config set GP_TMPL_PATH $SITE_DIR/wp-content/plugins/wporg-gp-customizations/templates/
+npm run wp-env run cli wp config set GP_TMPL_PATH 'wp-content/plugins/wporg-gp-customizations/templates/'
 npm run wp-env run cli wp config set GP_URL_BASE '/'
 npm run wp-env run cli wp config set GLOTPRESS_TABLE_PREFIX 'translate_'
+npm run wp-env run cli wp config set GLOTPRESS_LOCALES_PATH 'wp-content/plugins/glotpress/locales/locales.php';
+
 
 # Enable the "WordPress.org Main" theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
 npm run wp-env run cli wp theme activate pub/wporg-main
+
+print_header "Import the database"
+# Import the database
+echo "Downloading a database backup"
+mkdir -p ./meta.git/wordpress.org/public_html/wp-content/downloads
+curl -o ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql \
+    https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql
+echo "Importing database wordpressorg_dev.sql"
+npm run wp-env run cli wp db import wp-content/downloads/wordpressorg_dev.sql
+echo "Finished database import operations"
+rm ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql
+
+# Enable some plugins
+# To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
+# npm run wp-env run cli wp plugin activate glotpress
+exit
 
 SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
 WPCLI_PLUGINS=( jetpack tinymce-code-element wp-multibyte-patch )

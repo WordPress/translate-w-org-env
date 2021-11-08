@@ -115,9 +115,9 @@ function wme_create_logs {
 # $1 - the name of the database
 # $2 - the absolute path to the folder where the $1.sql file is stored
 function wme_import_database {
-	echo "Creating database ${1}"
-	mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS $1;"
-	mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON $1.* TO wp@localhost IDENTIFIED BY 'wp';"
+#	echo "Creating database ${1}"
+#	mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS $1;"
+#	mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON $1.* TO wp@localhost IDENTIFIED BY 'wp';"
 	echo "Importing database ${2}/${1}.sql"
 	mysql -u root --password=root $1 < "${2}/${1}.sql"
 	echo "Finished database import operations for ${1}"
@@ -171,4 +171,10 @@ function wme_download_pomo {
   local CURLOPTIONS="--globoff --silent --location --output"
 	curl $CURLOPTIONS $OUTPUT.po https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=po || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.po"
 	curl $CURLOPTIONS $OUTPUT.mo "https://translate.wordpress.org/projects/$GPPROJECT/$GPLOCALE/default/export-translations?filters[status]=current&format=mo" || echo "Error downloading ${GPPROJECT}-${GPLOCALE}.mo"
+}
+
+function print_header() {
+  echo '******************************************************************************************'
+  echo $1
+  echo '******************************************************************************************'
 }

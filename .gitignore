@@ -5,4 +5,5 @@ wp-content/plugins/*
 wp-content/themes/*
 wp-content/uploads/*
 glotpress.git
+meta-environment-vvv.git
 meta.git
