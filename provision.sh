@@ -52,6 +52,7 @@ echo "Restoring the database backup updated"
 npm run wp-env run cli wp db import /var/www/html/tmp/database.sql
 echo "Removing the database backup"
 rm tmp/database.sql
+rm tmp/database.sql.bu
 
 print_header "Importing the database"
 # https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql

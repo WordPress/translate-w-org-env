@@ -11,7 +11,6 @@
 		"WP_ENVIRONMENT_TYPE": "local",
 		"WPORGPATH": "/var/www/html/wp-content/themes/pub/wporg/inc/",
 		"GP_URL_BASE":  "/",
-		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/",
-		"LOCAL_ENVIRONMENT": true
+		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/"
 	}
 }

@@ -23,7 +23,7 @@ class Index extends GP_Route {
 		foreach ( $existing_locales as $locale ) {
 			$locales[] = GP_Locales::by_slug( $locale );
 		}
-		if ( ! defined( 'LOCAL_ENVIRONMENT' ) || ! LOCAL_ENVIRONMENT ) usort( $locales, array( $this, '_sort_english_name_callback' ) );
+		if ( 'local' !== wp_get_environment_type() ) usort( $locales, array( $this, '_sort_english_name_callback' ) );
 		unset( $existing_locales );
 
 		$contributors_count = Plugin::get_contributors_count();

@@ -18,7 +18,7 @@ namespace WordPressdotorg\Theme;
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<?php if ( defined( 'LOCAL_ENVIRONMENT' ) && LOCAL_ENVIRONMENT ) : ?>
+	<?php if ( 'local' === wp_get_environment_type() ) : ?>
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600&amp;subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//s.w.org/style/wp4.css?95">
 	<?php endif; ?>

@@ -192,7 +192,7 @@ add_action( 'customize_preview_init', __NAMESPACE__ . '\customize_preview_js' );
  * @link https://sites.google.com/site/webmasterhelpforum/en/faq-internationalisation FAQ: Internationalisation.
  */
 function hreflang_link_attributes() {
-	if ( ! defined( 'LOCAL_ENVIRONMENT' ) || ! LOCAL_ENVIRONMENT ) return;
+	if ( 'local' === wp_get_environment_type() ) return;
 
 	// No hreflangs on 404 pages.
 	if ( is_404() ) {
