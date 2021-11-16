@@ -5,7 +5,7 @@
 		"wp-content": "./meta.git/wordpress.org/public_html/wp-content",
 		"wp-content/plugins/glotpress": "./glotpress.git",
 		"wp-content/themes/rosetta": "./meta.git/global.wordpress.org/public_html/wp-content/themes/rosetta",
-		"tmp": "./wp-content/tmp"
+		"tmp": "./tmp"
 	},
 	"config": {
 		"WP_ENVIRONMENT_TYPE": "local",

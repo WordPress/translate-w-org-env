@@ -47,19 +47,15 @@ print_header "Updating the table prefix"
 echo "Making a database backup"
 npm run wp-env run cli wp db export /var/www/html/tmp/database.sql
 echo "Updating the table prefix on the backup"
-sed -i.bu 's/wp_/translate_/' wp-content/tmp/database.sql
+sed -i.bu 's/wp_/translate_/' tmp/database.sql
 echo "Restoring the database backup updated"
 npm run wp-env run cli wp db import /var/www/html/tmp/database.sql
+echo "Removing the database backup"
+rm tmp/database.sql
 
 print_header "Importing the database"
-echo "Downloading a database backup"
-mkdir -p ./meta.git/wordpress.org/public_html/wp-content/downloads
-curl -o ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql \
-    https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql
-echo "Importing the database wordpressorg_dev.sql"
-npm run wp-env run cli wp db import wp-content/downloads/wordpressorg_dev.sql
-echo "Removing the database backup: wordpressorg_dev.sql"
-rm ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql
+# https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql
+npm run wp-env run cli wp db import tmp/wordpressorg_dev.sql
 
 print_header "Updating the database prefix"
 npm run wp-env run cli wp config set table_prefix translate_
@@ -72,12 +68,9 @@ npm run wp-env run cli wp option update blogname "translate.wordpress.local"
 
 ## Todo: try to update this on the source code
 print_header "Updating some files that have been modified for the local environment"
-cp wp-content/tmp/class-index.php ./meta.git/wordpress.org/public_html/wp-content/plugins/wporg-gp-routes/inc/routes/class-index.php
-cp wp-content/tmp/functions.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/functions.php
-cp wp-content/tmp/header.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/inc/header.php
-
-# todo: delete
-# svn co https://wpcom-themes.svn.automattic.com/p2 ./meta.git/wordpress.org/public_html/wp-content/themes/p2
+cp tmp/class-index.php ./meta.git/wordpress.org/public_html/wp-content/plugins/wporg-gp-routes/inc/routes/class-index.php
+cp tmp/functions.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/functions.php
+cp tmp/header.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/inc/header.php
 
 print_header "Downloading some plugins"
 for i in "${SVN_PLUGINS[@]}"
