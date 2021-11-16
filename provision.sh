@@ -6,10 +6,14 @@
 # Load the helper functions
 source ./helper-functions.sh
 # Todo: check that the software is installed: npm, git, curl,...
+# Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
+WPCLI_PLUGINS=( jetpack tinymce-code-element wp-multibyte-patch )
+WP_LOCALES=( ja es_ES )
 
-print_header "Clone and/or pull GlotPress and WordPress.org"
+print_header "Cloning and/or pulling GlotPress and WordPress.org"
 # Get a copy from GlotPress and Meta only if the folder doesn't exist
 # Pull the repo looking for updates
 [[ -d glotpress.git ]] || git clone https://github.com/GlotPress/GlotPress-WP.git glotpress.git
@@ -21,6 +25,7 @@ cd -
 cd meta.git
 git config --local pull.ff only
 git pull
+git pull
 cd -
 # todo: remove the meta-environment-vvv.git clone and the other commands when we have the first beta version
 [[ -d meta-environment-vvv.git ]] || git clone https://github.com/WordPress/meta-environment meta-environment-vvv.git
@@ -30,41 +35,63 @@ git pull
 cd -
 
 # Set the permalinks format, because GlotPress needs it
+print_header "Updating the permalinks format"
 npm run wp-env run cli wp option update permalink_structure '/%postname%'
 
-# Define some wp-config.php constants
-# See https://github.com/WordPress/meta-environment/blob/05296fa7c388bc2a4b25f9e0d58fb20e232b9b4c/wordpressorg.test/provision/wp-config.php#L97-L101
-
-npm run wp-env run cli wp config set DB_CHARSET latin1
-npm run wp-env run cli wp config set GP_TMPL_PATH 'wp-content/plugins/wporg-gp-customizations/templates/'
-npm run wp-env run cli wp config set GP_URL_BASE '/'
-npm run wp-env run cli wp config set GLOTPRESS_TABLE_PREFIX 'translate_'
-npm run wp-env run cli wp config set GLOTPRESS_LOCALES_PATH 'wp-content/plugins/glotpress/locales/locales.php';
-
-
-# Enable the "WordPress.org Main" theme
+# Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
-npm run wp-env run cli wp theme activate pub/wporg-main
+print_header "Enabling the rosetta theme"
+npm run wp-env run cli wp theme activate rosetta
 
-print_header "Import the database"
-# Import the database
+print_header "Updating the table prefix"
+echo "Making a database backup"
+npm run wp-env run cli wp db export /var/www/html/tmp/database.sql
+echo "Updating the table prefix on the backup"
+sed -i.bu 's/wp_/translate_/' wp-content/tmp/database.sql
+echo "Restoring the database backup updated"
+npm run wp-env run cli wp db import /var/www/html/tmp/database.sql
+
+print_header "Importing the database"
 echo "Downloading a database backup"
 mkdir -p ./meta.git/wordpress.org/public_html/wp-content/downloads
 curl -o ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql \
     https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql
-echo "Importing database wordpressorg_dev.sql"
+echo "Importing the database wordpressorg_dev.sql"
 npm run wp-env run cli wp db import wp-content/downloads/wordpressorg_dev.sql
-echo "Finished database import operations"
+echo "Removing the database backup: wordpressorg_dev.sql"
 rm ./meta.git/wordpress.org/public_html/wp-content/downloads/wordpressorg_dev.sql
 
-# Enable some plugins
-# To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
-# npm run wp-env run cli wp plugin activate glotpress
-exit
+print_header "Updating the database prefix"
+npm run wp-env run cli wp config set table_prefix translate_
 
-SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
-WPCLI_PLUGINS=( jetpack tinymce-code-element wp-multibyte-patch )
-WP_LOCALES=( ja es_ES )
+print_header "Updating the database prefix for GlotPress as variable in the wp-config.php"
+npm run wp-env run cli wp config set gp_table_prefix translate_ \"--type=variable\"
+
+print_header "Updating the site name"
+npm run wp-env run cli wp option update blogname "translate.wordpress.local"
+
+## Todo: try to update this on the source code
+print_header "Updating some files that have been modified for the local environment"
+cp wp-content/tmp/class-index.php ./meta.git/wordpress.org/public_html/wp-content/plugins/wporg-gp-routes/inc/routes/class-index.php
+cp wp-content/tmp/functions.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/functions.php
+cp wp-content/tmp/header.php meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg/inc/header.php
+
+# todo: delete
+# svn co https://wpcom-themes.svn.automattic.com/p2 ./meta.git/wordpress.org/public_html/wp-content/themes/p2
+
+print_header "Downloading some plugins"
+for i in "${SVN_PLUGINS[@]}"
+do :
+	svn co https://plugins.svn.wordpress.org/$i/trunk ./meta.git/wordpress.org/public_html/wp-content/plugins/$i
+done
+print_header "Activating some plugins"
+npm run wp-env run cli wp plugin activate ${SVN_PLUGINS[@]}
+print_header "Installing and activating some plugins"
+npm run wp-env run cli wp plugin install \"--activate\" ${WPCLI_PLUGINS[@]}
+
+# To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
+print_header "Activating GlotPress and its plugins"
+npm run wp-env run cli wp plugin activate glotpress wporg-gp-js-warnings wporg-gp-routes wporg-gp-custom-warnings wporg-gp-help wporg-gp-plugin-directory wporg-gp-slack-integrations wporg-gp-theme-directory wporg-gp-translation-fixer wporg-gp-translation-suggestions wporg-gp-customizations
 
 # Create some folders
 echo "Creating some folders"

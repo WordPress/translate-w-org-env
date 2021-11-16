@@ -3,9 +3,15 @@
 	"plugins": [  ],
 	"mappings": {
 		"wp-content": "./meta.git/wordpress.org/public_html/wp-content",
-		"wp-content/plugins/glotpress": "./glotpress.git"
+		"wp-content/plugins/glotpress": "./glotpress.git",
+		"wp-content/themes/rosetta": "./meta.git/global.wordpress.org/public_html/wp-content/themes/rosetta",
+		"tmp": "./wp-content/tmp"
 	},
 	"config": {
-		"WP_ENVIRONMENT_TYPE": "local"
+		"WP_ENVIRONMENT_TYPE": "local",
+		"WPORGPATH": "/var/www/html/wp-content/themes/pub/wporg/inc/",
+		"GP_URL_BASE":  "/",
+		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/",
+		"LOCAL_ENVIRONMENT": true
 	}
 }
