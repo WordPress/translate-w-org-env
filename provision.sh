@@ -9,7 +9,7 @@ source ./helper-functions.sh
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
+SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron query-monitor email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
 WPCLI_PLUGINS=( jetpack tinymce-code-element wp-multibyte-patch )
 WP_LOCALES=( ja es_ES )
 
@@ -36,30 +36,15 @@ cd -
 
 # Set the permalinks format, because GlotPress needs it
 print_header "Updating the permalinks format"
-npm run wp-env run cli wp option update permalink_structure '/%postname%'
+npm run wp-env run cli wp option update permalink_structure '\/\%postname\%\/'
 
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
 print_header "Enabling the rosetta theme"
 npm run wp-env run cli wp theme activate rosetta
 
-print_header "Updating the table prefix"
-echo "Making a database backup"
-npm run wp-env run cli wp db export /var/www/html/tmp/database.sql
-echo "Updating the table prefix on the backup"
-sed -i.bu 's/wp_/translate_/' tmp/database.sql
-echo "Restoring the database backup updated"
-npm run wp-env run cli wp db import /var/www/html/tmp/database.sql
-echo "Removing the database backup"
-rm tmp/database.sql
-rm tmp/database.sql.bu
-
-print_header "Importing the database"
-# https://raw.githubusercontent.com/WordPress/meta-environment/master/wordpressorg.test/provision/wordpressorg_dev.sql
-npm run wp-env run cli wp db import tmp/wordpressorg_dev.sql
-
-print_header "Updating the database prefix"
-npm run wp-env run cli wp config set table_prefix translate_
+print_header "Importing the translation tables"
+npm run wp-env run cli wp db import tmp/translate_tables.sql
 
 print_header "Updating the database prefix for GlotPress as variable in the wp-config.php"
 npm run wp-env run cli wp config set gp_table_prefix translate_ \"--type=variable\"
