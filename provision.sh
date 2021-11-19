@@ -9,8 +9,8 @@ source ./helper-functions.sh
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-SVN_PLUGINS=( akismet bbpress debug-bar debug-bar-cron query-monitor email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
-WPCLI_PLUGINS=( jetpack tinymce-code-element wp-multibyte-patch )
+SVN_PLUGINS=( akismet debug-bar debug-bar-cron query-monitor email-post-changes speakerdeck-embed supportflow syntaxhighlighter two-factor wordpress-importer )
+WPCLI_PLUGINS=( tinymce-code-element wp-multibyte-patch )
 WP_LOCALES=( ja es_ES )
 
 print_header "Cloning and/or pulling GlotPress and WordPress.org"
@@ -50,7 +50,8 @@ print_header "Updating the database prefix for GlotPress as variable in the wp-c
 npm run wp-env run cli wp config set gp_table_prefix translate_ \"--type=variable\"
 
 print_header "Updating the site name"
-npm run wp-env run cli wp option update blogname "translate.wordpress.local"
+npm run wp-env run cli wp option update blogname \'translate.wordpress.local\'
+npm run wp-env run cli wp option update blogdescription \'WordPress.org translation system\'
 
 ## Todo: try to update this on the source code
 print_header "Updating some files that have been modified for the local environment"
@@ -95,3 +96,12 @@ do :
 	wme_download_pomo "${gplocale}" "meta/p2-breathe" "$SITE_DIR/wp-content/languages/themes/p2-breathe-${locale}"
 	wme_download_pomo "${gplocale}" "meta/o2" "$SITE_DIR/wp-content/languages/themes/o2-${locale}"
 done
+
+# Set the permalinks format, because GlotPress needs it
+print_header "Updating the rewrite structure"
+npm run wp-env run cli wp rewrite structure '/%postname%/'
+
+print_header "Running the cron"
+npm run wp-env run cli wp cron event run \'--due-now\'
+
+# npm run wp-env run cli wp option list \'--orderby=option_name\' \'--unserialize\'
