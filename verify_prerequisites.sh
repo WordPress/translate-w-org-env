@@ -1,5 +1,5 @@
 #!/bin/bash
-COMMANDS_TO_CHECK=( docker wp git npm curl )
+COMMANDS_TO_CHECK=( docker docker-compose wp git npm curl )
 for command in "${COMMANDS_TO_CHECK[@]}"
 do :
   if ! command -v ${command} &> /dev/null
