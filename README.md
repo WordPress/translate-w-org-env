@@ -12,7 +12,9 @@ This repo is a WIP, so don't use it to develop.
 2. `cd translate-w-org-env.git`
 3. `npm install`
 4. `npm run start` (This will provision some items).
-5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
+5. Visit backend at <a href="http://localhost:8888/wp-admin/options-permalink.php" target="_blank"> http://localhost:8888/wp-admin/options-permalink.php </a>
+and reload the page. Use `admin/password` as credentials.
+6. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
 
 ## Stopping the environment
 `npm run wp-env stop`
@@ -34,9 +36,6 @@ Docker uses a random port for the MySQL server. Take a look to this when you pro
 system. The credentials to access to this server are:
 - Username: root
 - Password: password
-
-## Get the wp-config.php data
-`npm run wp-env run cli wp config get`
 
 ## More info
 
