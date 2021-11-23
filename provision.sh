@@ -22,30 +22,10 @@ PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer blogware-importer wpcat2
 META_TO_TRANSLATE=( browsehappy forums rosetta wordcamp-theme plugins themes )
 APPS_TO_TRANSLATE=( android ios wordcamp-android )
 
-print_header "Cloning and/or pulling GlotPress and WordPress.org"
-# Get a copy from GlotPress and Meta only if the folder doesn't exist
-# Pull the repo looking for updates
-[[ -d glotpress.git ]] || git clone https://github.com/GlotPress/GlotPress-WP.git glotpress.git
-cd glotpress.git
-git config --local pull.ff only
-git pull
-cd -
-[[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
-cd meta.git
-git config --local pull.ff only
-git pull
-git pull
-cd -
-# todo: remove the meta-environment-vvv.git clone and the other commands when we have the first beta version
-[[ -d meta-environment-vvv.git ]] || git clone https://github.com/WordPress/meta-environment meta-environment-vvv.git
-cd meta-environment-vvv.git
-git config --local pull.ff only
-git pull
-cd -
 
 # Set the permalinks format, because GlotPress needs it
 print_header "Updating the permalinks format"
-npm run wp-env run cli wp option update permalink_structure '"/%postname/"'
+npm run wp-env run cli wp rewrite structure '"/%postname%/"' '"--hard"'
 
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list

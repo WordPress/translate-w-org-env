@@ -10,8 +10,10 @@
     "@wordpress/env": "^4.0.0"
   },
   "scripts": {
+    "verify": "./verify_prerequisites.sh",
+    "pull_repos": "./pull_repos.sh",
     "provision": "./provision.sh",
-    "start": "npm run wp-env start && npm run provision",
+    "start": "npm run verify && npm run pull_repos && npm run wp-env start && npm run provision",
     "stop": "npm run wp-env stop",
     "destroy": "npm run wp-env destroy",
     "destroy-and-provision": "yes | npm run destroy && npm run start",
