@@ -57,8 +57,20 @@ npm run wp-env run cli wp  user create translator03 translator03@example.com '"-
 npm run wp-env run cli wp  user create translator04 translator04@example.com '"--user_pass=password"' '"--role=subscriber"'
 npm run wp-env run cli wp  user create translator05 translator05@example.com '"--user_pass=password"' '"--role=subscriber"'
 
+# See https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/#installing-a-plugin-or-theme-on-the-development-instance
+# This if executes the plugin installation with docker-compose on Linux systems and with npm on Mac
+# This only works if we have 1 folder inside ~/wp-env
+# Todo: get the ~/wp-env folder where is the WordPress Docker configuration if the user has more than one Docker installation
 print_header "Installing and activating some plugins"
-npm run wp-env run cli wp plugin install '"--activate"' ${WPCLI_PLUGINS[@]}
+if [ -d "~/wp-env" ]
+then
+  WPENV_FOLDER=$(ls ~/wp-env -1 | head -1)
+  cd ~/wp-env/$WPENV_FOLDER
+  docker-compose run --rm -u $(id -u) -e HOME=/tmp cli plugin install --activate ${WPCLI_PLUGINS[@]}
+  cd -
+else
+  npm run wp-env run cli wp plugin install '"--activate"' ${WPCLI_PLUGINS[@]}
+fi
 
 # To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
 print_header "Activating GlotPress and its plugins"

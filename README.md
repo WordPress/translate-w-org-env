@@ -14,6 +14,9 @@ This repo is a WIP, so don't use it to develop.
 4. `npm run start` (This will provision some items, so it will take a few minutes.You will see all updates in the CLI).
 5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
 
+## Starting the environment
+`npm run start`
+
 ## Stopping the environment
 `npm run stop`
 
