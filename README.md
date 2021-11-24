@@ -15,13 +15,13 @@ This repo is a WIP, so don't use it to develop.
 5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
 
 ## Stopping the environment
-`npm run wp-env stop`
+`npm run stop`
 
 ## Removing the environment
-`npm run wp-env destroy`
+`npm run destroy`
 
 ## Recreating the environment
-`npm run wp-env destroy-and-provision`
+`npm run destroy-and-provision`
 
 ## Dashboard access
 To access to the WordPress dashboard, you need to use:
