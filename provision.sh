@@ -113,22 +113,5 @@ print_header "Updating the rewrite structure"
 npm run wp-env run cli wp rewrite structure '"/%postname%/"' '"--hard"'
 npm run wp-env run cli wp rewrite flush '"--hard"'
 
-# The next 3 curl commands are a hack and I have to do it because without this
-# I have to access to http://localhost:8888/wp-admin/options-permalink.php
-# for everything to start working.
-print_header "Login in the backend and getting the permalinks page"
-curl  --silent --output /dev/null \
-      --dump-header tmp/cookies/cookie1.txt http://localhost:8888/wp-login.php
-curl  --dump-header  tmp/cookies/cookie1.txt \
-      --cookie tmp/cookies/cookie1.txt --cookie-jar tmp/cookies/cookie1.txt \
-      --form log="admin" \
-      --form pwd="password" --form testcookie=1 \
-      --form wp-submit="Log In" \
-      --form redirect_to=http://localhost:8888/wp-admin --form submit=login \
-      --form rememberme=forever http://localhost:8888/wp-login.php
-curl  --silent --output /dev/null \
-      --cookie tmp/cookies/cookie1.txt http://localhost:8888/wp-admin/options-permalink.php
-rm tmp/cookies/cookie1.txt
-
 print_header "Running the cron"
 npm run wp-env run cli wp cron event run '"--due-now"'
