@@ -4,6 +4,7 @@ wp-content/languages/*
 wp-content/plugins/*
 wp-content/themes/*
 wp-content/uploads/*
+tmp/cookies/*
 tmp/po/*.po
 glotpress.git
 meta-environment-vvv.git

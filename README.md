@@ -12,9 +12,7 @@ This repo is a WIP, so don't use it to develop.
 2. `cd translate-w-org-env`
 3. `npm install`
 4. `npm run start` (This will provision some items, so it will take a few minutes.You will see all updates in the CLI).
-5. Visit backend at <a href="http://localhost:8888/wp-admin/options-permalink.php" target="_blank"> http://localhost:8888/wp-admin/options-permalink.php </a>
-and reload the page. Use `admin/password` as credentials.
-6. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
+5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>
 
 ## Stopping the environment
 `npm run wp-env stop`

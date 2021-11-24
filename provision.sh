@@ -6,12 +6,11 @@
 function print_header() {
   echo ''
   echo '******************************************************************************************'
-  echo $1
+  echo "$1"
   echo '******************************************************************************************'
   echo ''
 }
 
-# Todo: check that the software is installed: npm, git, curl,...
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -59,7 +58,7 @@ npm run wp-env run cli wp  user create translator04 translator04@example.com '"-
 npm run wp-env run cli wp  user create translator05 translator05@example.com '"--user_pass=password"' '"--role=subscriber"'
 
 print_header "Installing and activating some plugins"
-npm run wp-env run cli wp plugin install \"--activate\" ${WPCLI_PLUGINS[@]}
+npm run wp-env run cli wp plugin install '"--activate"' ${WPCLI_PLUGINS[@]}
 
 # To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
 print_header "Activating GlotPress and its plugins"
@@ -112,7 +111,24 @@ rm tmp/po/*.po
 # Set the permalinks format, because GlotPress needs it
 print_header "Updating the rewrite structure"
 npm run wp-env run cli wp rewrite structure '"/%postname%/"' '"--hard"'
-npm run wp-env run cli wp rewrite flush
+npm run wp-env run cli wp rewrite flush '"--hard"'
+
+# The next 3 curl commands are a hack and I have to do it because without this
+# I have to access to http://localhost:8888/wp-admin/options-permalink.php
+# for everything to start working.
+print_header "Login in the backend and getting the permalinks page"
+curl  --silent --output /dev/null \
+      --dump-header tmp/cookies/cookie1.txt http://localhost:8888/wp-login.php
+curl  --dump-header  tmp/cookies/cookie1.txt \
+      --cookie tmp/cookies/cookie1.txt --cookie-jar tmp/cookies/cookie1.txt \
+      --form log="admin" \
+      --form pwd="password" --form testcookie=1 \
+      --form wp-submit="Log In" \
+      --form redirect_to=http://localhost:8888/wp-admin --form submit=login \
+      --form rememberme=forever http://localhost:8888/wp-login.php
+curl  --silent --output /dev/null \
+      --cookie tmp/cookies/cookie1.txt http://localhost:8888/wp-admin/options-permalink.php
+rm tmp/cookies/cookie1.txt
 
 print_header "Running the cron"
 npm run wp-env run cli wp cron event run '"--due-now"'
