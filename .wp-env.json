@@ -6,7 +6,8 @@
 		"wp-content/plugins/glotpress": "./glotpress.git",
 		"wp-content/themes/rosetta": "./meta.git/global.wordpress.org/public_html/wp-content/themes/rosetta",
 		"tmp": "./tmp",
-		"wp-cli.yml": "./wp-cli.yml"
+		"wp-cli.yml": "./wp-cli.yml",
+		".htaccess": "./.wp-env/.htaccess"
 	},
 	"config": {
 		"WP_ENVIRONMENT_TYPE": "local",
