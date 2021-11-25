@@ -80,13 +80,13 @@ wporg-gp-translation-fixer wporg-gp-translation-suggestions wporg-gp-customizati
 
 print_header "Downloading and importing the WordPress strings"
 # Download the WordPress po file and import it
-npm run wp-env run cli curl '"-o"' tmp/po/wordpress-dev.po https://translate.wordpress.org/projects/wp/dev/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
+curl -o tmp/po/wordpress-dev.po https://translate.wordpress.org/projects/wp/dev/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
 npm run wp-env run cli wp glotpress import-originals '"wp/dev"' tmp/po/wordpress-dev.po
-npm run wp-env run cli curl '"-o"' tmp/po/continents.po https://translate.wordpress.org/projects/wp/dev/cc/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
+curl -o tmp/po/continents.po https://translate.wordpress.org/projects/wp/dev/cc/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
 npm run wp-env run cli wp glotpress import-originals '"wp/dev/cc"' tmp/po/continents.po
-npm run wp-env run cli curl '"-o"' tmp/po/admin.po https://translate.wordpress.org/projects/wp/dev/admin/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
+curl -o tmp/po/admin.po https://translate.wordpress.org/projects/wp/dev/admin/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
 npm run wp-env run cli wp glotpress import-originals '"wp/dev/admin"' tmp/po/admin.po
-npm run wp-env run cli curl '"-o"' tmp/po/admin-network.po https://translate.wordpress.org/projects/wp/dev/admin/network/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
+curl -o tmp/po/admin-network.po https://translate.wordpress.org/projects/wp/dev/admin/network/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
 npm run wp-env run cli wp glotpress import-originals '"wp/dev/admin/network"' tmp/po/admin-network.po
 
 print_header "Downloading and importing some plugin strings"
