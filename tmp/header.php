@@ -22,7 +22,13 @@ namespace WordPressdotorg\Theme;
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600&amp;subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//s.w.org/style/wp4.css?95">
 	<?php endif; ?>
-	<?php wp_head(); ?>
+	<?php
+	if ( function_exists( 'gp_head' ) ) {
+		gp_head();
+	} else {
+		wp_head();
+	}
+	?>
 </head>
 
 <body id="wordpress-org" <?php body_class(); ?>>
