@@ -20,10 +20,10 @@ function check_if_path_exists() {
   echo "${YELLOW}Checking if the path exists.${RESET}"
   if [ -n "$1" ]; then
     if [ ! -d "$1" ]; then
-        echo "${RED}The path $1 doesn't exist.${RESET}"
-        exit
+      echo "${RED}The path $1 doesn't exist.${RESET}"
+      exit
     else
-        echo "${GREEN}The path $1 exists.${RESET}"
+      echo "${GREEN}The path $1 exists.${RESET}"
     fi
   else
       echo "${RED}You need to provide the path where WordPress is installed on your machine. ${RESET}"
@@ -109,6 +109,34 @@ function install_wordpress() {
   echo "${GREEN}Themes updated.${RESET}"
 }
 
+function clone_repos() {
+  # Get a copy from GlotPress and Meta only if the folder doesn't exist
+  # Pull the repo looking for updates
+  echo "${YELLOW}Cloning and/or pulling GlotPress repo.${RESET}"
+  [[ -d glotpress.git ]] || git clone https://github.com/GlotPress/GlotPress-WP.git glotpress.git
+  cd glotpress.git
+  git config pull.ff only
+  git pull
+  cd -
+  echo "${GREEN}GlotPress repo cloned and/or updated.${RESET}"
+  echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
+  [[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
+  cd meta.git
+  git config pull.ff only
+  git pull
+  cd -
+  echo "${GREEN}Meta repo cloned and/or updated.${RESET}"
+}
+
+function copy_repos() {
+  # Do the same that the mappings in the .wp-env.json file
+  echo "${YELLOW}Coping some items from the repos to WordPress.${RESET}"
+  cp -R ./meta.git/wordpress.org/public_html/wp-content $1/wp-content
+  cp -R ./glotpress.git $1/wp-content/plugins/glotpress
+  cp ./.wp-env/.htaccess $1/
+  echo "${GREEN}Items copied.${RESET}"
+}
+
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
 while getopts "ht:d:p:m:w:" opt; do
@@ -116,7 +144,7 @@ while getopts "ht:d:p:m:w:" opt; do
       h )
         echo "Usage:"
         echo "    \"./provision.sh\" to deploy a Docker environment"
-        echo "    \"./provision.sh -t lamp -p /Users/myuser/code/wordpress/wp -w /opt/homebrew/bin/wp\" to deploy a lamp environment at \"/Users/myuser/code/wordpress/wp\""
+        echo "    \"./provision.sh -t lamp -p /Users/myuser/code/wordpress/wp\" to deploy a lamp environment at \"/Users/myuser/code/wordpress/wp\""
         exit 0
         ;;
       t )
@@ -125,29 +153,15 @@ while getopts "ht:d:p:m:w:" opt; do
       d )
         PROJECT_PATH=$OPTARG
         ;;
-#      p )
-#        PHP_PATH=$OPTARG
-#        ;;
-#      m )
-#        MYSQL_PATH=$OPTARG
-#        ;;
-#      w )
-#        WP_CLI_PATH=$OPTARG
-#        ;;
-      \? )
-        echo "Usage: ./provision.sh [-t] [-p]"
-        ;;
-      : )
-        echo "Empty"
-        ;;
   esac
 done
 
-echo "Type: $TYPE"
-echo "Path: $PROJECT_PATH"
-echo "PHP Path: $PHP_PATH"
-echo "MySQL Path: $MYSQL_PATH"
-echo "WP-CLI Path: $WP_CLI_PATH"
+# This constant will be empty if the environment is local. In the Docker environment will be used to store the
+# npm command
+WP_CLI_PREFIX="npm run wp-env run cli"
+# This constant will be empty if the environment is Docker. In the LAMP environment it will be used to store
+# the WordPress path
+WP_CLI_SUFFIX=""
 
 if [ "$TYPE" == "lamp" ]; then
   check_if_path_exists $PROJECT_PATH
@@ -159,10 +173,12 @@ if [ "$TYPE" == "lamp" ]; then
   reset_wordpress $PROJECT_PATH
   LOCAL_URL=`wp option get siteurl --path=$PROJECT_PATH`
   install_wordpress $PROJECT_PATH $LOCAL_URL
-  exit
+  clone_repos
+  copy_repos $PROJECT_PATH
+  WP_CLI_PREFIX=""
+  WP_CLI_SUFFIX="--path=$PROJECT_PATH"
 fi
 
-exit
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 WPCLI_PLUGINS=( debug-bar debug-bar-cron query-monitor stop-emails )
 PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer blogware-importer wpcat2tag-importer debug-bar \
@@ -174,18 +190,21 @@ APPS_TO_TRANSLATE=( android ios wordcamp-android )
 
 # Set the permalinks format, because GlotPress needs it
 print_header "Updating the permalinks format"
-npm run wp-env run cli wp rewrite structure '"/%postname%/"' '"--hard"'
+if [ "$TYPE" == "lamp" ]; then
+  $WP_CLI_PREFIX wp rewrite structure /%postname%/ --hard $WP_CLI_SUFFIX
+else
+  $WP_CLI_PREFIX wp rewrite structure '/%postname%/' '"--hard"' $WP_CLI_SUFFIX
+fi
 
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
 print_header "Enabling the rosetta theme"
-npm run wp-env run cli wp theme activate rosetta
-
+$WP_CLI_PREFIX wp theme activate rosetta
 print_header "Importing the translation tables"
-npm run wp-env run cli wp db import tmp/translate_tables.sql
+$WP_CLI_PREFIX wp db import tmp/translate_tables.sql $WP_CLI_SUFFIX
 # Remove this table, because the old dump hasn't some fields
-npm run wp-env run cli wp db query '""DROP TABLE translate_project_translation_status""'
-npm run wp-env run cli wp db import tmp/translate_project_translation_status.sql
+$WP_CLI_PREFIX wp db query '""DROP TABLE translate_project_translation_status""' $WP_CLI_SUFFIX
+$WP_CLI_PREFIX wp db import tmp/translate_project_translation_status.sql $WP_CLI_SUFFIX
 
 print_header "Updating the database prefix for GlotPress as variable in the wp-config.php"
 npm run wp-env run cli wp config set gp_table_prefix translate_ \"--type=variable\"
