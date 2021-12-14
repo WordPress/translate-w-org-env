@@ -3,6 +3,11 @@
 # This scripts tries to emulate the VVV one, available at
 # https://github.com/WordPress/meta-environment/blob/59c83e865c7d37e6fa1700bfef7150929a8586a3/wordpressorg.test/provision/vvv-init.sh#L88
 
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+RESET=`tput sgr0`
+
 function print_header() {
   echo ''
   echo '******************************************************************************************'
@@ -11,8 +16,153 @@ function print_header() {
   echo ''
 }
 
+function check_if_path_exists() {
+  echo "${YELLOW}Checking if the path exists.${RESET}"
+  if [ -n "$1" ]; then
+    if [ ! -d "$1" ]; then
+        echo "${RED}The path $1 doesn't exist.${RESET}"
+        exit
+    else
+        echo "${GREEN}The path $1 exists.${RESET}"
+    fi
+  else
+      echo "${RED}You need to provide the path where WordPress is installed on your machine. ${RESET}"
+      exit
+  fi
+}
+
+function check_if_php_is_installed() {
+  echo "${YELLOW}Checking if PHP is installed in the path provided.${RESET}"
+  php -v
+  if [ $? -ne 0 ]; then
+    echo "${RED}You need PHP installed on your machine. Check if PHP is installed and the binary in your path.${RESET}"
+    exit
+  else
+    echo "${GREEN}PHP is installed.${RESET}"
+  fi
+}
+
+function check_if_mysql_is_installed() {
+  echo "${YELLOW}Checking if MySQL is installed in the path provided.${RESET}"
+  mysql --help
+  if [ $? -ne 0 ]; then
+    echo "${RED}You need MySQL installed on your machine. Check if MySQL is installed and the binary in your path.${RESET}"
+    exit
+  else
+    echo "${GREEN}MySQL is installed.${RESET}"
+  fi
+}
+
+function check_if_wp_cli_is_installed() {
+  echo "${YELLOW}Checking if WP-CLI is installed in the path provided.${RESET}"
+  wp --info
+  if [ $? -ne 0 ]; then
+    echo "${RED}You need the WP-CLI installed on your machine. Check if WP-CLI is installed and the binary in your path.${RESET}"
+    exit
+  else
+    echo "${GREEN}WP-CLI is installed.${RESET}"
+  fi
+}
+
+function check_if_wp_is_installed() {
+  echo "${YELLOW}Checking if WordPress is installed in the path provided.${RESET}"
+  wp core is-installed --path=$1
+  if [ $? -ne 0 ]; then
+    echo "${RED}The path $1 has not a WordPress installation.${RESET}"
+    exit
+  else
+    echo "${GREEN}WordPress is installed at $1.${RESET}"
+  fi
+}
+
+function ask_if_the_user_wants_to_reset_wordpress() {
+  read -p "${RED}We are going to reset your WordPress. Are you sure? {y/n}${RESET}" -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "${GREEN}Resetting your WordPress.${RESET}"
+  else
+    echo "${GREEN}Stopping the script.${RESET}"
+    exit
+  fi
+}
+
+function reset_wordpress() {
+  echo "${YELLOW}Resetting the database.${RESET}"
+  wp db reset --path=$1 --yes
+  echo "${GREEN}Database reset.${RESET}"
+}
+
+function install_wordpress() {
+  echo "${YELLOW}Installing WordPress.${RESET}"
+  wp core install --path=$1 --url='https://www.wp.test' --title="Translation local environment" \
+  --admin_user=admin --admin_password=password --admin_email=info@wp.test
+  echo "${GREEN}WordPress installed.${RESET}"
+  echo "${YELLOW}Updating WordPress.${RESET}"
+  wp core update --path=$1
+  echo "${GREEN}WordPress updated.${RESET}"
+  echo "${YELLOW}Deactivating and uninstalling all plugins.${RESET}"
+  wp plugin deactivate --all --path=$1
+  wp plugin uninstall --all --skip-delete --path=$1
+  echo "${GREEN}Plugins and deactivated and uninstalled.${RESET}"
+  echo "${YELLOW}Updating themes.${RESET}"
+  wp theme update --all --path=$1
+  echo "${GREEN}Themes updated.${RESET}"
+}
+
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
 
+while getopts "ht:d:p:m:w:" opt; do
+  case ${opt} in
+      h )
+        echo "Usage:"
+        echo "    \"./provision.sh\" to deploy a Docker environment"
+        echo "    \"./provision.sh -t lamp -p /Users/myuser/code/wordpress/wp -w /opt/homebrew/bin/wp\" to deploy a lamp environment at \"/Users/myuser/code/wordpress/wp\""
+        exit 0
+        ;;
+      t )
+        TYPE=$OPTARG
+        ;;
+      d )
+        PROJECT_PATH=$OPTARG
+        ;;
+#      p )
+#        PHP_PATH=$OPTARG
+#        ;;
+#      m )
+#        MYSQL_PATH=$OPTARG
+#        ;;
+#      w )
+#        WP_CLI_PATH=$OPTARG
+#        ;;
+      \? )
+        echo "Usage: ./provision.sh [-t] [-p]"
+        ;;
+      : )
+        echo "Empty"
+        ;;
+  esac
+done
+
+echo "Type: $TYPE"
+echo "Path: $PROJECT_PATH"
+echo "PHP Path: $PHP_PATH"
+echo "MySQL Path: $MYSQL_PATH"
+echo "WP-CLI Path: $WP_CLI_PATH"
+
+if [ "$TYPE" == "lamp" ]; then
+  check_if_path_exists $PROJECT_PATH
+  check_if_php_is_installed
+  check_if_mysql_is_installed
+  check_if_wp_cli_is_installed
+  check_if_wp_is_installed $PROJECT_PATH
+  ask_if_the_user_wants_to_reset_wordpress
+  reset_wordpress $PROJECT_PATH
+  LOCAL_URL=`wp option get siteurl --path=$PROJECT_PATH`
+  install_wordpress $PROJECT_PATH $LOCAL_URL
+  exit
+fi
+
+exit
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 WPCLI_PLUGINS=( debug-bar debug-bar-cron query-monitor stop-emails )
 PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer blogware-importer wpcat2tag-importer debug-bar \
@@ -64,8 +214,8 @@ npm run wp-env run cli wp  user create translator05 translator05@example.com '"-
 print_header "Installing and activating some plugins"
 if [ -d "~/wp-env" ]
 then
-  WPENV_FOLDER=$(ls ~/wp-env -1 | head -1)
-  cd ~/wp-env/$WPENV_FOLDER
+  WPENV_PATH=$(ls ~/wp-env -1 | head -1)
+  cd ~/wp-env/$WPENV_PATH
   docker-compose run --rm -u $(id -u) -e HOME=/tmp cli plugin install --activate ${WPCLI_PLUGINS[@]}
   cd -
 else
