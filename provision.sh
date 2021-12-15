@@ -33,9 +33,9 @@ function check_if_path_exists() {
 
 function check_if_php_is_installed() {
   echo "${YELLOW}Checking if PHP is installed in the path provided.${RESET}"
-  php -v
+  type php
   if [ $? -ne 0 ]; then
-    echo "${RED}You need PHP installed on your machine. Check if PHP is installed and the binary in your path.${RESET}"
+    echo "${RED}You need PHP installed on your machine. Check if PHP is installed and the binary in your \$PATH environment variable.${RESET}"
     exit
   else
     echo "${GREEN}PHP is installed.${RESET}"
@@ -44,9 +44,9 @@ function check_if_php_is_installed() {
 
 function check_if_mysql_is_installed() {
   echo "${YELLOW}Checking if MySQL is installed in the path provided.${RESET}"
-  mysql --help
+  type mysql
   if [ $? -ne 0 ]; then
-    echo "${RED}You need MySQL installed on your machine. Check if MySQL is installed and the binary in your path.${RESET}"
+    echo "${RED}You need MySQL installed on your machine. Check if MySQL is installed and the binary in your \$PATH environment variable.${RESET}"
     exit
   else
     echo "${GREEN}MySQL is installed.${RESET}"
@@ -57,7 +57,7 @@ function check_if_wp_cli_is_installed() {
   echo "${YELLOW}Checking if WP-CLI is installed in the path provided.${RESET}"
   wp --info
   if [ $? -ne 0 ]; then
-    echo "${RED}You need the WP-CLI installed on your machine. Check if WP-CLI is installed and the binary in your path.${RESET}"
+    echo "${RED}You need the WP-CLI installed on your machine. Check if WP-CLI is installed and the binary in your \$PATH environment variable.${RESET}"
     exit
   else
     echo "${GREEN}WP-CLI is installed.${RESET}"
