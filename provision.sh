@@ -136,7 +136,7 @@ function copy_repos() {
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/themes $1/wp-content/
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/upgrade $1/wp-content/
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/uploads $1/wp-content/
-  cp -f -R ./glotpress.git $1/wp-content/plugins/glotpress
+  cp -f -R ./glotpress.git/ $1/wp-content/plugins/glotpress
   cp -f -R ./meta.git/global.wordpress.org/public_html/wp-content/themes/rosetta $1/wp-content/themes/
   cp ./.wp-env/.htaccess $1/
   echo "${GREEN}Items copied.${RESET}"
