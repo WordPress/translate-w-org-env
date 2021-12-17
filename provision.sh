@@ -94,8 +94,8 @@ function reset_wordpress() {
 
 function install_wordpress() {
   echo "${YELLOW}Installing WordPress.${RESET}"
-  wp core install --path=$1 --url='https://www.wp.test' --title="Translation local environment" \
-  --admin_user=admin --admin_password=password --admin_email=info@wp.test
+  wp core install --path=$1 --url=$2 --title="Translation local environment" \
+  --admin_user=admin --admin_password=password --admin_email=info@example.test
   echo "${GREEN}WordPress installed.${RESET}"
   echo "${YELLOW}Updating WordPress.${RESET}"
   wp core update --path=$1
