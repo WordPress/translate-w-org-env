@@ -184,6 +184,7 @@ if [ "$TYPE" == "lamp" ]; then
   ask_if_the_user_wants_to_reset_wordpress
   reset_wordpress $PROJECT_PATH
   LOCAL_URL=`wp option get siteurl --path=$PROJECT_PATH`
+  echo "Local URL: "
   install_wordpress $PROJECT_PATH $LOCAL_URL
   clone_repos
   copy_repos $PROJECT_PATH

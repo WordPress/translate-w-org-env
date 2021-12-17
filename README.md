@@ -57,6 +57,16 @@ system. The credentials to access to this server are:
 - WP-CLI in your $PATH.
 
 ### Setup
+
+If you don't have WordPress in your local machine, you can install it with the WP-CLI and these commands (use your own 
+paths and values: usernames, passwords,...):
+
+- `cd /your/local/folder`
+- `wp core download`
+- `wp config create --dbname=wordpress --dbuser=wordpress --dbpass="password"
+wp core install --url="wordpress.test" --title="Test Site" --admin_user=admin --admin_password="password" \
+--admin_email=example@example.com`
+
 **Please, note that this installation is destructive and will delete the data you have in your WordPress.**
 
 1. `git clone https://github.com/amieiro/translate-w-org-env.git`
