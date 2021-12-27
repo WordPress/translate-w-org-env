@@ -63,8 +63,8 @@ paths and values: usernames, passwords,...):
 
 - `cd /your/local/folder`
 - `wp core download`
-- `wp config create --dbname=wordpress --dbuser=wordpress --dbpass="password"
-wp core install --url="wordpress.test" --title="Test Site" --admin_user=admin --admin_password="password" \
+- `wp config create --dbname=wordpress --dbuser=wordpress --dbpass="password"`
+- `wp core install --url="wordpress.test" --title="Test Site" --admin_user=admin --admin_password="password" \
 --admin_email=example@example.com`
 
 **Please, note that this installation is destructive and will delete the data you have in your WordPress.**
