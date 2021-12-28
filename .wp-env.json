@@ -12,6 +12,7 @@
 		"WP_ENVIRONMENT_TYPE": "local",
 		"WPORGPATH": "/var/www/html/wp-content/themes/pub/wporg/inc/",
 		"GP_URL_BASE":  "/",
-		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/"
+		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/",
+		"FEATURE_2021_GLOBAL_HEADER_FOOTER": false
 	}
 }
