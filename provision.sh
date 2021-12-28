@@ -147,6 +147,7 @@ function set_environment_variables() {
   wp config set WPORGPATH $1/wp-content/themes/pub/wporg/inc/ --path=$1
   wp config set GP_URL_BASE '/' --path=$1
   wp config set GP_TMPL_PATH $1/wp-content/plugins/wporg-gp-customizations/templates/ --path=$1
+  wp config set FEATURE_2021_GLOBAL_HEADER_FOOTER false --raw --path=$1
 }
 
 # Todo: add in the meta.git .gitignore file all the files that have been copied to it
