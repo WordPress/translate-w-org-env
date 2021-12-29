@@ -292,6 +292,109 @@ $WP_CLI_PREFIX wp glotpress import-originals wp/dev/admin tmp/po/admin.po $WP_CL
 curl -o tmp/po/admin-network.po https://translate.wordpress.org/projects/wp/dev/admin/network/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated
 $WP_CLI_PREFIX wp glotpress import-originals wp/dev/admin/network tmp/po/admin-network.po $WP_CLI_SUFFIX
 
+print_header "Downloading and importing some core translations"
+curl -o tmp/po/wp-4.1-es.po "https://translate.wordpress.org/projects/wp/4.1.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.1-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.2-es.po "https://translate.wordpress.org/projects/wp/4.2.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.2-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.3-es.po "https://translate.wordpress.org/projects/wp/4.3.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.3-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.4-es.po "https://translate.wordpress.org/projects/wp/4.4.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.4-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.5-es.po "https://translate.wordpress.org/projects/wp/4.5.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.5-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.6-es.po "https://translate.wordpress.org/projects/wp/4.6.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.6-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.7-es.po "https://translate.wordpress.org/projects/wp/4.7.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.7-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.8-es.po "https://translate.wordpress.org/projects/wp/4.8.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.8-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-4.9-es.po "https://translate.wordpress.org/projects/wp/4.9.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-4.9-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-5.0-es.po "https://translate.wordpress.org/projects/wp/5.0.x/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-5.0-es.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-es.po "https://translate.wordpress.org/projects/wp/dev/es/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev es tmp/po/wp-dev-es.po $WP_CLI_SUFFIX
+
+curl -o tmp/po/wp-dev-af.po "https://translate.wordpress.org/projects/wp/dev/af/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev af tmp/po/wp-dev-af.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ar.po "https://translate.wordpress.org/projects/wp/dev/ar/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ar tmp/po/wp-dev-ar.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-bg.po "https://translate.wordpress.org/projects/wp/dev/bg/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev bg tmp/po/wp-dev-bg.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ckb.po "https://translate.wordpress.org/projects/wp/dev/ckb/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ckb tmp/po/wp-dev-ckb.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-cs.po "https://translate.wordpress.org/projects/wp/dev/cs/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev cs tmp/po/wp-dev-cs.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-da.po "https://translate.wordpress.org/projects/wp/dev/da/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev da tmp/po/wp-dev-da.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-de.po "https://translate.wordpress.org/projects/wp/dev/de/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev de tmp/po/wp-dev-de.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-el.po "https://translate.wordpress.org/projects/wp/dev/el/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev el tmp/po/wp-dev-el.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-et.po "https://translate.wordpress.org/projects/wp/dev/et/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev et tmp/po/wp-dev-et.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-fr.po "https://translate.wordpress.org/projects/wp/dev/fr/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev fr tmp/po/wp-dev-fr.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-fa.po "https://translate.wordpress.org/projects/wp/dev/fa/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev fa tmp/po/wp-dev-fa.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-fi.po "https://translate.wordpress.org/projects/wp/dev/fi/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev fi tmp/po/wp-dev-fi.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-gl.po "https://translate.wordpress.org/projects/wp/dev/gl/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev gl tmp/po/wp-dev-gl.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-he.po "https://translate.wordpress.org/projects/wp/dev/he/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev he tmp/po/wp-dev-he.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-hi.po "https://translate.wordpress.org/projects/wp/dev/hi/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev hi tmp/po/wp-dev-hi.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-hr.po "https://translate.wordpress.org/projects/wp/dev/hr/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev hr tmp/po/wp-dev-hr.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-hu.po "https://translate.wordpress.org/projects/wp/dev/hu/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev hu tmp/po/wp-dev-hu.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-id.po "https://translate.wordpress.org/projects/wp/dev/id/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev id tmp/po/wp-dev-id.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-it.po "https://translate.wordpress.org/projects/wp/dev/it/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev it tmp/po/wp-dev-it.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-lt.po "https://translate.wordpress.org/projects/wp/dev/lt/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev lt tmp/po/wp-dev-lt.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-lv.po "https://translate.wordpress.org/projects/wp/dev/lv/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev lv tmp/po/wp-dev-lv.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ja.po "https://translate.wordpress.org/projects/wp/dev/ja/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ja tmp/po/wp-dev-ja.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ka.po "https://translate.wordpress.org/projects/wp/dev/ka/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ka tmp/po/wp-dev-ka.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ko.po "https://translate.wordpress.org/projects/wp/dev/ko/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ko tmp/po/wp-dev-ko.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-mk.po "https://translate.wordpress.org/projects/wp/dev/mk/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev mk tmp/po/wp-dev-mk.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ml.po "https://translate.wordpress.org/projects/wp/dev/ml/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ml tmp/po/wp-dev-ml.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-mn.po "https://translate.wordpress.org/projects/wp/dev/mn/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev mn tmp/po/wp-dev-mn.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-mr.po "https://translate.wordpress.org/projects/wp/dev/mr/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev mr tmp/po/wp-dev-mr.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-nl.po "https://translate.wordpress.org/projects/wp/dev/nl/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev nl tmp/po/wp-dev-nl.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-pl.po "https://translate.wordpress.org/projects/wp/dev/pl/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev pl tmp/po/wp-dev-pl.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-pt.po "https://translate.wordpress.org/projects/wp/dev/pt/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev pt tmp/po/wp-dev-pt.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ro.po "https://translate.wordpress.org/projects/wp/dev/ro/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ro tmp/po/wp-dev-ro.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-ru.po "https://translate.wordpress.org/projects/wp/dev/ru/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev ru tmp/po/wp-dev-ru.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-sk.po "https://translate.wordpress.org/projects/wp/dev/sk/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev sk tmp/po/wp-dev-sk.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-sv.po "https://translate.wordpress.org/projects/wp/dev/sv/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev sv tmp/po/wp-dev-sv.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-tr.po "https://translate.wordpress.org/projects/wp/dev/tr/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev tr tmp/po/wp-dev-tr.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-uk.po "https://translate.wordpress.org/projects/wp/dev/uk/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev uk tmp/po/wp-dev-uk.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-vi.po "https://translate.wordpress.org/projects/wp/dev/vi/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev vi tmp/po/wp-dev-vi.po $WP_CLI_SUFFIX
+curl -o tmp/po/wp-dev-zh-cn.po "https://translate.wordpress.org/projects/wp/dev/zh-cn/default/export-translations/?filters%5Btranslated%5D=yes&filters%5Bstatus%5D=current"
+$WP_CLI_PREFIX wp glotpress translation-set import wp/dev zh-cn tmp/po/wp-dev-zh-cn.po $WP_CLI_SUFFIX
+
 print_header "Downloading and importing some plugin strings"
 # Some plugins or readme will fail, because it doesn't have the stable version
 for plugin in "${PLUGINS_TO_TRANSLATE[@]}"
