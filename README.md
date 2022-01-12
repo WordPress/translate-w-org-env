@@ -1,4 +1,4 @@
-# (WIP) Local development environment for translate.wordpress.org
+# Local development environment for translate.wordpress.org
 
 This repo is a WIP, so don't use it to develop.
 
