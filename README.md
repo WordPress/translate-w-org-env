@@ -1,8 +1,6 @@
 # Local development environment for translate.wordpress.org
 
-This repo is a WIP, so don't use it to develop.
-
-This repo allows you to install a local development environment:
+This project allows you to install a local development environment:
 - using a Docker environment.
 - Using a local environment: LAMP, LEMP, XAMPP, MAMP, Laravel Valet,... One local environment where you install 
 a web server (usually Apache or NGINX), a database (usually MySQL or MariaDB) and PHP. We will use the LAMP term to 
