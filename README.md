@@ -16,7 +16,7 @@ talk about this environment.
 - [npm](https://www.npmjs.com/). [Install instructions](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
 ### Setup
-1. `git clone https://github.com/amieiro/translate-w-org-env.git`
+1. `git clone git@github.com:WordPress/translate-w-org-env.git`
 2. `cd translate-w-org-env`
 3. `npm install`
 4. `npm run start` (This will provision some items, so it will take a few minutes.You will see all updates in the CLI).
@@ -70,7 +70,7 @@ paths and values: usernames, passwords,...):
 
 **Please, note that this installation is destructive and will delete the data you have in your WordPress.**
 
-1. `git clone https://github.com/amieiro/translate-w-org-env.git`
+1. `git clone git@github.com:WordPress/translate-w-org-env.git`
 2. `cd translate-w-org-env`
 3. Make sure that the `provision.sh` file has execution permissions. Execute `chmod +x provision.sh` to give execution
 permissions.
