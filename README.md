@@ -49,10 +49,10 @@ system. The credentials to access to this server are:
 ### Prerequisites
 - [Git](https://git-scm.com/). [Install instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 - A local environment with WordPress running in your local machine.
-- The Bash shell.
-- PHP in your $PATH.
-- MySQL in your $PATH.
-- WP-CLI in your $PATH.
+- The Bash shell in your $PATH. Check if you have the Bash in your $PATH executing ```type bash```.
+- PHP in your $PATH. Check if you have the PHP in your $PATH executing ```type php```.
+- MySQL in your $PATH. Check if you have the MySQL in your $PATH executing ```type mysql```.
+- WP-CLI in your $PATH. Check if you have the MySQL in your $PATH executing ```type wp```.
 
 ### Setup
 
