@@ -122,6 +122,10 @@ function clone_repos() {
   echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
   [[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
   cd meta.git
+  # todo: this checkout reverts to the themes previous to the changes in January, 2022
+  # https://wptavern.com/wordpress-org-gets-new-global-header-and-footer-design
+  # We have to remove this to sync the local environment with the production one
+  git checkout ecc97b75f34a70382b8cc5ff4a2d0f301cb51ab4
   git config pull.ff only
   git pull
   cd -
