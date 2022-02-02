@@ -198,7 +198,7 @@ if [ "$TYPE" == "lamp" ]; then
 fi
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-WPCLI_PLUGINS=( debug-bar debug-bar-cron query-monitor stop-emails )
+WPCLI_PLUGINS=( debug-bar debug-bar-cron query-monitor stop-emails laravel-dd )
 PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer blogware-importer wpcat2tag-importer debug-bar \
   dotclear-importer greymatter-importer livejournal-importer movabletype-importer opml-importer rss-importer \
   stp-importer textpattern-importer theme-check tumblr-importer utw-importer user-switching wordpress-importer )
