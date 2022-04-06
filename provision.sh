@@ -121,27 +121,22 @@ function clone_repos() {
   echo "${GREEN}GlotPress repo cloned and/or updated.${RESET}"
   echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
   [[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
-  cd meta.git
-  # todo: this checkout reverts to the themes previous to the changes in January, 2022
-  # https://wptavern.com/wordpress-org-gets-new-global-header-and-footer-design
-  # We have to remove this to sync the local environment with the production one
-  git checkout ecc97b75f34a70382b8cc5ff4a2d0f301cb51ab4
-  git config pull.ff only
-  git pull
-  cd -
   echo "${GREEN}Meta repo cloned and/or updated.${RESET}"
+  echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
+  [[ -d wporg-mu-plugins.git ]] || git clone https://github.com/wordpress/wporg-mu-plugins wporg-mu-plugins.git
+  echo "${GREEN}WordPress.org mu-plugins repo cloned and/or updated.${RESET}"
 }
 
 function copy_repos() {
   # Do the same that the mappings in the .wp-env.json file
   echo "${YELLOW}Coping some items from the repos to WordPress.${RESET}"
+  mkdir -p $1/wp-content/themes/pub $1/wp-content/pub-sync/
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/mu-plugins $1/wp-content/
+  cp -f -R ./wporg-mu-plugins.git/mu-plugins/ $1/wp-content/pub-sync/
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/plugins $1/wp-content/
   cp -f -R ./meta.git/wordpress.org/public_html/wp-content/themes $1/wp-content/
-  cp -f -R ./meta.git/wordpress.org/public_html/wp-content/upgrade $1/wp-content/
-  cp -f -R ./meta.git/wordpress.org/public_html/wp-content/uploads $1/wp-content/
   cp -f -R ./glotpress.git/ $1/wp-content/plugins/glotpress
-  cp -f -R ./meta.git/global.wordpress.org/public_html/wp-content/themes/rosetta $1/wp-content/themes/
+  cp -f -R ./meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg $1/wp-content/themes/pub/
   cp ./.wp-env/.htaccess $1/
   echo "${GREEN}Items copied.${RESET}"
 }
@@ -216,8 +211,8 @@ fi
 
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
-print_header "Enabling the rosetta theme"
-$WP_CLI_PREFIX wp theme activate rosetta $WP_CLI_SUFFIX
+print_header "Enabling the wporg theme"
+$WP_CLI_PREFIX wp theme activate pub/wporg $WP_CLI_SUFFIX
 print_header "Importing the translation tables"
 $WP_CLI_PREFIX wp db import tmp/translate_tables.sql $WP_CLI_SUFFIX
 # Remove this table, because the old dump hasn't some fields
