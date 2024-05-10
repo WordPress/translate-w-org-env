@@ -40,19 +40,24 @@ CREATE TABLE `translate_api_keys` (
 
 
 
-# Dump of table translate_dotorg_warnings
+# Dump of table translate_dotorg_translation_warnings
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `translate_dotorg_warnings`;
+DROP TABLE IF EXISTS `translate_dotorg_translation_warnings`;
 
-CREATE TABLE `translate_dotorg_warnings` (
+CREATE TABLE `translate_dotorg_translation_warnings` (
   `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` bigint(20) unsigned NOT NULL DEFAULT 0,
-  `translation_set` bigint(20) unsigned NOT NULL DEFAULT 0,
-  `translation` bigint(20) unsigned NOT NULL DEFAULT 0,
-  `warning` varchar(20) NOT NULL DEFAULT '',
-  `user` bigint(20) unsigned NOT NULL DEFAULT 0,
+  `translation_set_id` bigint(20) unsigned NOT NULL DEFAULT 0,
+  `translation_id` bigint(20) unsigned NOT NULL DEFAULT 0,
+  `warning` varchar(30) NOT NULL DEFAULT '',
+  `message` varchar(100) NOT NULL DEFAULT '',
+  `locale` varchar(10) DEFAULT NULL,
+  `locale_slug` varchar(10) DEFAULT NULL,
+  `project_path` varchar(100) DEFAULT NULL,
+  `user_id` bigint(20) unsigned NOT NULL DEFAULT 0,
   `status` varchar(20) NOT NULL DEFAULT '',
+  `timestamp` datetime NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
