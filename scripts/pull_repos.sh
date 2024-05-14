@@ -20,9 +20,11 @@ cd meta.git
 git config pull.ff only
 git pull
 cd -
-# todo: remove the meta-environment-vvv.git clone and the other commands when we have the first beta version
-[[ -d meta-environment-vvv.git ]] || git clone https://github.com/WordPress/meta-environment meta-environment-vvv.git
-cd meta-environment-vvv.git
+# todo: remove the wporg-mu-plugins.git clone and the other commands when we have the first beta version
+[[ -d wporg-mu-plugins.git ]] || git clone https://github.com/WordPress/wporg-mu-plugins wporg-mu-plugins.git
+cd wporg-mu-plugins.git
 git config pull.ff only
 git pull
+npm install
+npm run build
 cd -
