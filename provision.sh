@@ -131,6 +131,8 @@ function clone_repos() {
   cd wporg-mu-plugins.git
   git config pull.ff only
   git pull
+  npm install
+  npm run build
   echo "${GREEN}WordPress.org mu-plugins repo cloned and/or updated.${RESET}"
   cd -
 }
