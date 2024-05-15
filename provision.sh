@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 # This scripts tries to emulate the VVV one, available at
 # https://github.com/WordPress/meta-environment/blob/59c83e865c7d37e6fa1700bfef7150929a8586a3/wordpressorg.test/provision/vvv-init.sh#L88
@@ -117,6 +117,7 @@ function clone_repos() {
   cd glotpress.git
   git config pull.ff only
   git pull
+  git checkout develop
   cd -
   echo "${GREEN}GlotPress repo cloned and/or updated.${RESET}"
   echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
@@ -124,6 +125,7 @@ function clone_repos() {
   cd meta.git
   git config pull.ff only
   git pull
+  git checkout trunk
   cd -
   echo "${GREEN}Meta repo cloned and/or updated.${RESET}"
   echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
@@ -131,6 +133,7 @@ function clone_repos() {
   cd wporg-mu-plugins.git
   git config pull.ff only
   git pull
+  git checkout trunk
   npm install
   npm run build
   echo "${GREEN}WordPress.org mu-plugins repo cloned and/or updated.${RESET}"
@@ -196,7 +199,7 @@ CURL_OPTIONS="--fail --retry 3 --compressed"
 
 SITE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 WPCLI_PLUGINS=( debug-bar debug-bar-cron query-monitor stop-emails laravel-dd )
-PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer blogware-importer wpcat2tag-importer debug-bar \
+PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer wpcat2tag-importer debug-bar \
   dotclear-importer greymatter-importer livejournal-importer movabletype-importer opml-importer rss-importer \
   stp-importer textpattern-importer theme-check tumblr-importer utw-importer user-switching wordpress-importer )
 META_TO_TRANSLATE=( browsehappy forums rosetta wordcamp-theme plugins themes )
@@ -389,10 +392,10 @@ for plugin in "${PLUGINS_TO_TRANSLATE[@]}"
 do :
   test -f "tmp/po/${plugin}-dev.po" || curl $CURL_OPTIONS -o "tmp/po/${plugin}-dev.po" "https://translate.wordpress.org/projects/wp-plugins/${plugin}/dev/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated"
   $WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/dev tmp/po/$plugin-dev.po $WP_CLI_SUFFIX
-  $WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/stable tmp/po/$plugin-dev.po $WP_CLI_SUFFIX
+  #$WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/stable tmp/po/$plugin-dev.po $WP_CLI_SUFFIX
   test -f "tmp/po/${plugin}-dev-readme.po" || curl $CURL_OPTIONS -o "tmp/po/${plugin}-dev-readme.po" "https://translate.wordpress.org/projects/wp-plugins/${plugin}/dev-readme/gl/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated"
   $WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/dev-readme tmp/po/$plugin-dev-readme.po $WP_CLI_SUFFIX
-  $WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/stable-readme tmp/po/$plugin-dev-readme.po $WP_CLI_SUFFIX
+  #$WP_CLI_PREFIX wp glotpress import-originals wp-plugins/$plugin/stable-readme tmp/po/$plugin-dev-readme.po $WP_CLI_SUFFIX
 done
 
 print_header "Downloading and importing some meta strings"
