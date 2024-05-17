@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 # This scripts tries to emulate the VVV one, available at
 # https://github.com/WordPress/meta-environment/blob/59c83e865c7d37e6fa1700bfef7150929a8586a3/wordpressorg.test/provision/vvv-init.sh#L88
@@ -337,7 +337,7 @@ for element in "${APPS_TO_TRANSLATE[@]}"
 do :
   test -f "tmp/po/${element}.po" || curl $CURL_OPTIONS -o "tmp/po/${element}.po" "https://translate.wordpress.org/projects/apps/${element}/dev/es/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated"
   $WP_CLI_PREFIX wp glotpress import-originals apps/$element/dev tmp/po/$element.po $WP_CLI_SUFFIX
-  test -f curl "tmp/po/${element}-release-notes.po" || -o "tmp/po/${element}-release-notes.po" "https://translate.wordpress.org/projects/apps/${element}/release-notes/es/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated"
+  test -f curl "tmp/po/${element}-release-notes.po" || curl $CURL_OPTIONS -o "tmp/po/${element}-release-notes.po" "https://translate.wordpress.org/projects/apps/${element}/release-notes/es/default/export-translations/?filters%5Bstatus%5D=current_or_waiting_or_fuzzy_or_untranslated"
   $WP_CLI_PREFIX wp glotpress import-originals apps/$element/release-notes tmp/po/$element-release-notes.po $WP_CLI_SUFFIX
 done
 
