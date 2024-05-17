@@ -204,7 +204,7 @@ PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer wpcat2tag-importer debug
   stp-importer textpattern-importer theme-check tumblr-importer utw-importer user-switching wordpress-importer )
 META_TO_TRANSLATE=( browsehappy forums rosetta wordcamp-theme plugins themes )
 APPS_TO_TRANSLATE=( android ios wordcamp-android )
-TRANSLATE_PLUGINS=( glotpress-translate-bridge wp-i18n-teams wporg-gp-custom-stats wporg-gp-custom-warnings wporg-gp-customizations wporg-gp-help wporg-gp-js-warnings wporg-gp-plugin-directory wporg-gp-routes wporg-gp-slack-integrations wporg-gp-theme-directory wporg-gp-translation-fixer wporg-gp-translation-suggestions )
+TRANSLATE_PLUGINS=( glotpress-translate-bridge wp-i18n-teams wporg-gp-custom-stats wporg-gp-custom-errors wporg-gp-custom-warnings wporg-gp-customizations wporg-gp-help wporg-gp-js-warnings wporg-gp-plugin-directory wporg-gp-routes wporg-gp-slack-integrations wporg-gp-theme-directory wporg-gp-translation-fixer wporg-gp-translation-suggestions )
 
 if [ "$TYPE" == "lamp" ]; then
   check_if_path_exists $PROJECT_PATH
