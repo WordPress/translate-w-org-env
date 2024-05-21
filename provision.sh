@@ -204,7 +204,7 @@ PLUGINS_TO_TRANSLATE=( akismet bbpress blogger-importer wpcat2tag-importer debug
   stp-importer textpattern-importer theme-check tumblr-importer utw-importer user-switching wordpress-importer )
 META_TO_TRANSLATE=( browsehappy forums rosetta wordcamp-theme plugins themes )
 APPS_TO_TRANSLATE=( android ios wordcamp-android )
-TRANSLATE_PLUGINS=( glotpress-translate-bridge wp-i18n-teams wporg-gp-custom-stats wporg-gp-custom-errors wporg-gp-custom-warnings wporg-gp-customizations wporg-gp-help wporg-gp-js-warnings wporg-gp-plugin-directory wporg-gp-routes wporg-gp-slack-integrations wporg-gp-theme-directory wporg-gp-translation-fixer wporg-gp-translation-suggestions )
+TRANSLATE_PLUGINS=( glotpress-translate-bridge wp-i18n-teams wporg-gp-custom-stats wporg-gp-custom-errors wporg-gp-custom-warnings wporg-gp-customizations wporg-gp-help wporg-gp-js-warnings wporg-gp-plugin-directory wporg-gp-routes wporg-gp-slack-integrations wporg-gp-theme-directory wporg-gp-translation-fixer wporg-gp-translation-events wporg-gp-translation-suggestions )
 
 if [ "$TYPE" == "lamp" ]; then
   check_if_path_exists $PROJECT_PATH
@@ -288,7 +288,7 @@ fi
 
 # To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
 print_header "Activating GlotPress and its plugins"
-$WP_CLI_PREFIX wp plugin activate glotpress roles/rosetta-roles ${TRANSLATE_PLUGINS[@]} $WP_CLI_SUFFIX
+$WP_CLI_PREFIX wp plugin activate glotpress ${TRANSLATE_PLUGINS[@]} $WP_CLI_SUFFIX
 
 print_header "Downloading and importing the WordPress strings"
 # Download the WordPress po file and import it
