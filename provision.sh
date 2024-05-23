@@ -230,20 +230,20 @@ print_header "Updating the permalinks format"
 if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp rewrite structure /%postname%/ --hard $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp rewrite structure '/%postname%/' '"--hard"' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp rewrite structure '/%postname%/' -- --hard $WP_CLI_SUFFIX
 fi
 
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
 print_header "Enabling the wporg theme"
-$WP_CLI_PREFIX wp theme activate pub/wporg $WP_CLI_SUFFIX
+$WP_CLI_PREFIX wp theme activate pub $WP_CLI_SUFFIX
 print_header "Importing the translation tables"
 $WP_CLI_PREFIX wp db import tmp/translate_tables.sql $WP_CLI_SUFFIX
 # Remove this table, because the old dump hasn't some fields
 if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp db query 'DROP TABLE translate_project_translation_status' $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp db query '""DROP TABLE translate_project_translation_status""' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp db query 'DROP TABLE translate_project_translation_status' $WP_CLI_SUFFIX
 fi
 $WP_CLI_PREFIX wp db import tmp/translate_project_translation_status.sql $WP_CLI_SUFFIX
 
@@ -251,7 +251,7 @@ print_header "Updating the database prefix for GlotPress as variable in the wp-c
 if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp config set gp_table_prefix translate_ --type=variable $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp config set gp_table_prefix translate_ \"--type=variable\" $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp config set gp_table_prefix translate_ -- --type=variable $WP_CLI_SUFFIX
 fi
 
 print_header "Updating the site name"
@@ -260,14 +260,14 @@ if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp option update blogdescription 'WordPress.org translation system' $WP_CLI_SUFFIX
 else
   $WP_CLI_PREFIX wp option update blogname \'translate.wordpress.local\' $WP_CLI_SUFFIX
-  $WP_CLI_PREFIX wp option update blogdescription \'WordPress.org translation system\' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp option update blogdescription 'WordPress.org translation system' $WP_CLI_SUFFIX
 fi
 
 print_header "Creating some new users"
 if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp user create translator01 translator01@example.com --user_pass=password --role=subscriber $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp user create translator01 translator01@example.com '"--user_pass=password"' '"--role=subscriber"' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp user create translator01 translator01@example.com -- --user_pass=password --role=subscriber $WP_CLI_SUFFIX
 fi
 
 # See https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/#installing-a-plugin-or-theme-on-the-development-instance
@@ -283,7 +283,7 @@ elif [ -d "~/wp-env" ]; then
   docker-compose run --rm -u $(id -u) -e HOME=/tmp cli plugin install --activate ${WPCLI_PLUGINS[@]}
   cd -
 else
-  $WP_CLI_PREFIX wp plugin install '"--activate"' ${WPCLI_PLUGINS[@]} $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp plugin install -- --activate ${WPCLI_PLUGINS[@]} $WP_CLI_SUFFIX
 fi
 
 # To see the GlotPress plugins, execute: npm run wp-env run cli wp plugin list | grep gp
@@ -350,13 +350,13 @@ if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp rewrite structure /%postname%/ --hard $WP_CLI_SUFFIX
   $WP_CLI_PREFIX wp rewrite flush --hard $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp rewrite structure '"/%postname%/"' '"--hard"' $WP_CLI_SUFFIX
-  $WP_CLI_PREFIX wp rewrite flush '"--hard"' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp rewrite structure '"/%postname%/"' -- --hard $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp rewrite flush -- --hard $WP_CLI_SUFFIX
 fi
 
 print_header "Running the cron"
 if [ "$TYPE" == "lamp" ]; then
   $WP_CLI_PREFIX wp cron event run --due-now $WP_CLI_SUFFIX
 else
-  $WP_CLI_PREFIX wp cron event run '"--due-now"' $WP_CLI_SUFFIX
+  $WP_CLI_PREFIX wp cron event run -- --due-now $WP_CLI_SUFFIX
 fi
