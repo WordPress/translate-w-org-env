@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@wordpress/env": "^4.0.0"
+    "@wordpress/env": "^9.10.0"
   },
   "scripts": {
     "verify": "scripts/verify_prerequisites.sh",
@@ -21,10 +21,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/amieiro/translate-w-org-env"
+    "url": "https://github.com/WordPress/translate-w-org-env"
   },
   "bugs": {
-    "url": "https://github.com/amieiro/translate-w-org-env"
+    "url": "https://github.com/WordPress/translate-w-org-env"
   },
-  "homepage": "https://github.com/amieiro/translate-w-org-env#readme"
+  "homepage": "https://github.com/WordPress/translate-w-org-env#readme"
 }
