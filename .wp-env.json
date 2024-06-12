@@ -18,6 +18,7 @@
 		"WPORGPATH": "/var/www/html/wp-content/themes/pub/wporg/inc/",
 		"GP_URL_BASE":  "/",
 		"GP_TMPL_PATH": "/var/www/html/wp-content/plugins/wporg-gp-customizations/templates/",
-		"FEATURE_2021_GLOBAL_HEADER_FOOTER": false
+		"FEATURE_2021_GLOBAL_HEADER_FOOTER": false,
+		"TRANSLATION_EVENTS_NEW_DESIGN": true
 	}
 }
