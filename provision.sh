@@ -120,6 +120,7 @@ function clone_repos() {
   git checkout develop
   cd -
   echo "${GREEN}GlotPress repo cloned and/or updated.${RESET}"
+
   echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
   [[ -d meta.git ]] || git clone https://github.com/wordpress/wordpress.org meta.git
   cd meta.git
@@ -128,7 +129,18 @@ function clone_repos() {
   git checkout trunk
   cd -
   echo "${GREEN}Meta repo cloned and/or updated.${RESET}"
-  echo "${YELLOW}Cloning and/or pulling meta repo.${RESET}"
+
+  echo "${YELLOW}Cloning and/or pulling wporg-parent-2021 repo.${RESET}"
+  [[ -d wporg-parent-2021.git ]] || git clone https://github.com/wordpress/wporg-parent-2021 wporg-parent-2021.git
+  cd wporg-parent-2021.git
+  git config pull.ff only
+  git pull
+  yarn setup:tools
+  yarn workspaces run build
+  cd -
+  echo "${GREEN}WordPress.org wporg-parent-2021 repo cloned and/or updated.${RESET}"
+
+  echo "${YELLOW}Cloning and/or pulling wporg-mu-plugins repo.${RESET}"
   [[ -d wporg-mu-plugins.git ]] || git clone https://github.com/wordpress/wporg-mu-plugins wporg-mu-plugins.git
   cd wporg-mu-plugins.git
   git config pull.ff only
@@ -136,8 +148,8 @@ function clone_repos() {
   git checkout trunk
   npm install
   npm run build
-  echo "${GREEN}WordPress.org mu-plugins repo cloned and/or updated.${RESET}"
   cd -
+  echo "${GREEN}WordPress.org mu-plugins repo cloned and/or updated.${RESET}"
 }
 
 function copy_repos() {
@@ -157,6 +169,7 @@ function copy_repos() {
   ln -s `pwd`/meta.git/wordpress.org/public_html/wp-content/themes $project_path/wp-content/themes
   ln -s `pwd`/glotpress.git/ $project_path/wp-content/plugins/glotpress
   ln -s `pwd`/meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg $project_path/wp-content/themes/pub/
+  ln -s `pwd`/wporg-parent-2021.git/source/wp-content/themes/wporg-parent-2021 $project_path/wp-content/themes/
   cp ./.wp-env/.htaccess $project_path/
   echo "${GREEN}Items copied.${RESET}"
 }
