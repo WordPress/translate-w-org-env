@@ -6,6 +6,7 @@
 		"wp-content": "./meta.git/wordpress.org/public_html/wp-content",
 		"wp-content/plugins/glotpress": "./glotpress.git",
 		"wp-content/themes/pub": "./meta.git/wordpress.org/public_html/wp-content/themes/pub/wporg",
+		"wp-content/themes/wporg-parent-2021": "./wporg-parent-2021.git/source/wp-content/themes/wporg-parent-2021",
 		"wp-content/mu-plugins/pub-sync": "./wporg-mu-plugins.git/mu-plugins",
 		"wp-content/mu-plugins/_loader.php": "./tmp/_loader.php",
 		"tmp": "./tmp",
