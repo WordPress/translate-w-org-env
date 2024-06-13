@@ -249,7 +249,7 @@ fi
 # Enable the rosetta theme
 # To see the available themes, execute: npm run wp-env run cli wp theme list
 print_header "Enabling the wporg theme"
-$WP_CLI_PREFIX wp theme activate pub $WP_CLI_SUFFIX
+$WP_CLI_PREFIX wp theme activate pub/wporg $WP_CLI_SUFFIX
 print_header "Importing the translation tables"
 $WP_CLI_PREFIX wp db import tmp/translate_tables.sql $WP_CLI_SUFFIX
 # Remove this table, because the old dump hasn't some fields
