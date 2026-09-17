@@ -1,26 +1,96 @@
-# translate-w-org-env
+> [!IMPORTANT]
+> **This repository is archived.** The local development environment for translate.wordpress.org is maintained in the WordPress.org Meta repository as [`environments/translate`](https://github.com/WordPress/wordpress.org/tree/trunk/environments/translate) — see the [Environments Guide](https://github.com/WordPress/wordpress.org/blob/trunk/environments/README.md) for setup. File bugs on [Meta Trac](https://meta.trac.wordpress.org/newticket?component=Translate+Site+%26+Plugins) under *Translate Site & Plugins*. Issues and pull requests opened here are no longer monitored.
+>
+> The instructions below are kept for reference and are no longer maintained. The `provision.sh -t lamp` path was retired rather than ported: the Meta environments are wp-env only and require Docker.
 
-**This repository is archived.** The local development environment for translate.wordpress.org now lives in the WordPress.org Meta repository as [`environments/translate`](https://github.com/WordPress/wordpress.org/tree/trunk/environments/translate), which landed in September 2026 (meta [r15165](https://meta.trac.wordpress.org/changeset/15165), see [#8368](https://meta.trac.wordpress.org/ticket/8368)). Issues and pull requests opened here are no longer monitored.
+# Local development environment for translate.wordpress.org
 
-## Where to go now
+This project allows you to install a local development environment:
+- using a Docker environment.
+- Using a local environment: LAMP, LEMP, XAMPP, MAMP, Laravel Valet,... One local environment where you install 
+a web server (usually Apache or NGINX), a database (usually MySQL or MariaDB) and PHP. We will use the LAMP term to 
+talk about this environment.
 
-```bash
-git clone https://github.com/WordPress/wordpress.org.git
-cd wordpress.org/environments
-npm install
-npm run translate:env start
-```
+## Docker environment
 
-- **Setup and usage:** the [Environments Guide](https://github.com/WordPress/wordpress.org/blob/trunk/environments/README.md), which also covers the plugin directory, theme directory, make, handbook, jobs, openverse, browsehappy, and SSO stacks.
-- **Bug reports and feature requests:** [Meta Trac](https://meta.trac.wordpress.org/), component [Translate Site & Plugins](https://meta.trac.wordpress.org/newticket?component=Translate+Site+%26+Plugins).
-- **Contributing:** open a pull request against the [Meta Git mirror](https://github.com/WordPress/wordpress.org) and reference the Trac ticket. A Meta committer commits the patch to SVN, which closes the PR automatically.
+### Prerequisites
+- [Git](https://git-scm.com/). [Install instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+- [Docker](https://www.docker.com/). [Install instructions](https://docs.docker.com/get-docker/).
+- [npm](https://www.npmjs.com/). [Install instructions](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
-## What changed
+### Setup
+1. `git clone git@github.com:WordPress/translate-w-org-env.git`
+2. `cd translate-w-org-env`
+3. `npm install`
+4. `npm run start` (This will provision some items, so it will take a few minutes.You will see all updates in the CLI).
+5. Visit site at <a href="http://localhost:8888" target="_blank"> http://localhost:8888 </a>.
 
-The replacement runs on PHP 8.4 rather than 7.4 and mounts the `wporg-gp-*` plugins straight from the Meta checkout, so there is no longer a `pull_repos.sh` step cloning Meta, GlotPress, wporg-parent-2021 and wporg-mu-plugins into the working tree. It also adds things this environment never had: GlotPress and Translation Events schema bootstrapping, the `wporg-gp-custom-stats` tables and a stats rebuild, on-demand string imports for any plugin or theme (`npm run translate:import -- plugin akismet`), seeded demo Translation Events, and a separate test environment running the Translation Events PHPUnit suite (`npm run translate:test`).
+### Starting the environment
+`npm run start`
 
-One capability was retired rather than ported: the `provision.sh -t lamp` path, which provisioned an existing LAMP/MAMP/Valet WordPress instead of Docker. The Meta environments are wp-env only and require Docker.
+### Stopping the environment
+`npm run stop`
 
-## History
+### Removing the environment
+`npm run destroy`
 
-This repository holds the environment's history from 2023 through its last commit in July 2024. It stays available read-only for reference and for links from older discussions.
+### Recreating the environment
+`npm run destroy-and-provision`
+
+### Dashboard access
+To access to the WordPress dashboard, you need to use:
+- URL: <a href="http://localhost:8888/wp-login.php" target="_blank"> http://localhost:8888/wp-login.php </a>
+- Username: admin
+- Password: password
+
+### MySQL access
+Docker uses a random port for the MySQL server. Take a look to this when you provision the 
+system. The credentials to access to this server are:
+- Username: root
+- Password: password
+
+## LAMP environment
+
+### Prerequisites
+- [Git](https://git-scm.com/). [Install instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+- A local environment with WordPress running in your local machine.
+- The Bash shell in your $PATH. Check if you have the Bash in your $PATH executing ```type bash```.
+- PHP in your $PATH. Check if you have the PHP in your $PATH executing ```type php```.
+- MySQL in your $PATH. Check if you have the MySQL in your $PATH executing ```type mysql```.
+- WP-CLI in your $PATH. Check if you have the MySQL in your $PATH executing ```type wp```.
+
+### Setup
+
+If you don't have WordPress in your local machine, you can install it with the WP-CLI and these commands (use your own 
+paths and values: usernames, passwords,...):
+
+- `cd /your/local/folder`
+- `wp core download`
+- `wp config create --dbname=wordpress --dbuser=wordpress --dbpass="password" --dbcharset=latin1 --dbcollate=latin1_swedish_ci`
+- `wp db reset` if you have some content in the database.
+- `wp core install --url="wordpress.test" --title="Test Site" --admin_user=admin --admin_password="password" --admin_email=example@example.com`
+
+**Please, note that this installation is destructive and will delete the data you have in your WordPress.**
+
+1. `git clone git@github.com:WordPress/translate-w-org-env.git`
+2. `cd translate-w-org-env`
+3. Make sure that the `provision.sh` file has execution permissions. Execute `chmod +x provision.sh` to give execution
+permissions.
+4. Execute this command `./provision.sh -t lamp -d /Users/myuser/code/wordpress/wp`, where:
+   1. `-t lamp` indicates that this installation is a `LAMP` type.
+   2. `-d /Users/myuser/code/wordpress/wp` represents the WordPress full path. Use your WordPress path and don't include
+   a slash at the end of the path.
+5. Visit your local WordPress in the URL where you have installed it before. 
+
+### Dashboard access
+To access to the WordPress dashboard, you need to use the same URL you used before. Use these credentials:
+- Username: admin
+- Password: password
+
+## More info
+
+This tool is inspired by [WordPress Meta Environment](https://github.com/WordPress/meta-environment) and it is based on 
+[WordPress Theme Directory - Local development environment](https://github.com/WordPress/theme-directory-env).
+
+This tool uses the [@wordpress/env](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/)
+Docker environment.
